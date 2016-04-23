@@ -6,7 +6,7 @@ var app = express();
 
 var getIss = require('./actions/getIss');
 var getAsteroids = require('./actions/getAsteroids');
-// var getWeather = require('./actions/getIss');
+var getWeather = require('./actions/getWeather');
 // var getMoonPhase = require('./actions/getIss');
 // var getPlanets = require('./actions/getIss');
 
@@ -23,7 +23,8 @@ app.get('/', function(req, res) {
 
   Promise.all([
     getIss(lat, lng),
-    getAsteroids(lat, lng),
+    // getAsteroids(lat, lng),
+    getWeather()
   ])
   .then(function(values) {
     res.json(values);
@@ -31,7 +32,7 @@ app.get('/', function(req, res) {
   .catch(function(error){
     console.log("SOMETHING WENT WRONG", error);
   })
-  
+
 });
 
 app.listen(3000, function() {
