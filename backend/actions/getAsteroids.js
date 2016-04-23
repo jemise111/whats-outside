@@ -7,12 +7,13 @@ function getAsteroids(userLat, userLng) {
     var today = new Date();
     var sevenDaysLater = new Date();
     sevenDaysLater.setDate(today.getDate()+7);
-    var todayMonth = today.getMonth()+1 < 10 ? '0' + today.getMonth()+1 : today.getMonth()+1;
-    var sevenDaysLaterMonth = sevenDaysLater.getMonth()+1 < 10 ? '0' + sevenDaysLater.getMonth()+1 : sevenDaysLater.getMonth()+1;
+
+    var todayMonth = (today.getMonth()+1) < 10 ? '0' + (today.getMonth()+1) : today.getMonth()+1;
+    var sevenDaysLaterMonth = sevenDaysLater.getMonth()+1 < 10 ? '0' + (sevenDaysLater.getMonth()+1) : sevenDaysLater.getMonth()+1;
     
     var start = today.getFullYear() + '-' + todayMonth + '-' + today.getDate();
-    console.log(start);
     var end = sevenDaysLater.getFullYear() + '-' + sevenDaysLaterMonth + '-' + sevenDaysLater.getDate();
+
     https.get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+start+'&end_date='+end+'&api_key=Tv6gAKvEQVPyIf0KwDIHRQXRuJ17XQYIEETD2e35', function (res, err) {
       var body = '';
       res.on('data', function(chunk) {
@@ -20,13 +21,12 @@ function getAsteroids(userLat, userLng) {
       });
       res.on('end', function() {
         var asteroids = JSON.parse(body).near_earth_objects[start];
-        console.log(asteroids);
         var closestAsteroid = getClosestAsteroid(asteroids);
-        var missDistance = asteroids[i].close_approach_data[0].miss_distance.miles;
+        var missDistance = closestAsteroid.close_approach_data[0].miss_distance.miles;
 
         // COMPARE TO THE THRESHOLD
-        var cleanName = closestAsteroid.replace('(', '').replace(')', '');
-        resolve("Asteroid " + cleanName + " is the closest asteroid to Earth today. It is " + missDistance + " miles from Earth.");
+        var cleanName = closestAsteroid.name.replace('(', '').replace(')', '');
+        resolve("Asteroid " + cleanName + " is the closest asteroid to Earth today. It is " + Math.round(missDistance) + " miles from Earth.");
 
       });
     });
