@@ -17,22 +17,22 @@ function getReport(userLat, userLng) {
         console.error('Error trying to scrape');
         throw err;
       } else {
-        result = 'Here is your weekly report from the Harvard Smithsonian Center for Astrophysics: ';
+        result = 'Here is your weekly report from the Harvard Smithsonian Center for Astrophysics:\n';
         if (data.eveningPlanets && data.eveningPlanets.length) {
-          var result = 'Planets visible in the evening: ';
-          result += getPlanets(data.eveningPlanets);
+          var result = 'Planets visible in the evening:\n';
+          result += getPlanets(data.eveningPlanets) + '\n';
         }
         if (data.morningPlanets && data.morningPlanets.length) {
-          result += 'Planets visible in the early morning: ';
-          result += getPlanets(data.morningPlanets);
+          result += 'Planets visible in the early morning:\n';
+          result += getPlanets(data.morningPlanets) + '\n';
         }
         if (data.comet && data.comet.length) {
-          result += "There's a comet nearby: ";
-          result += (data.comet);
+          result += "There's a comet nearby:\n";
+          result += (data.comet) + '\n';
         }
         if (data.meteor && data.meteor.length) {
-          result += "There's a meteor nearby: ";
-          result += (data.meteor);
+          result += "There's a meteor nearby:\n";
+          result += (data.meteor) + '\n';
         }
         resolve(result);
       }
