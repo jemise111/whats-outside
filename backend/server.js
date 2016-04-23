@@ -6,9 +6,7 @@ var app = express();
 
 var getIss = require('./actions/getIss');
 var getAsteroids = require('./actions/getAsteroids');
-// var getWeather = require('./actions/getIss');
-// var getMoonPhase = require('./actions/getIss');
-// var getPlanets = require('./actions/getIss');
+var getReport = require('./actions/getReport');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -24,6 +22,7 @@ app.get('/', function(req, res) {
   Promise.all([
     getIss(lat, lng),
     getAsteroids(lat, lng),
+    getReport(lat, lng),
   ])
   .then(function(values) {
     res.json(values);
