@@ -43,10 +43,9 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://64cda8e5.ngrok.io/')
+    fetch('http://whatsoutsidetonightapi.azurewebsites.net/')
     .then((response) => response.json())
     .then((json) => {
-      console.log('success');
       this.setState({data: json});
     })
     .catch((error) => {

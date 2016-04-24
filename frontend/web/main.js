@@ -21,12 +21,12 @@ const months = [
 ];
 
 const imgSrcs = [
-'http://en.es-static.us/upl/2014/11/andromeda-galaxy-Navaneeth-Unnikrishnan-11-9-2014-Kerala-India--e1416172553643.jpg',
-'http://en.es-static.us/upl/2014/11/andromeda-galaxy-Navaneeth-Unnikrishnan-11-9-2014-Kerala-India--e1416172553643.jpg',
-'http://en.es-static.us/upl/2014/11/andromeda-galaxy-Navaneeth-Unnikrishnan-11-9-2014-Kerala-India--e1416172553643.jpg',
-'http://en.es-static.us/upl/2014/11/andromeda-galaxy-Navaneeth-Unnikrishnan-11-9-2014-Kerala-India--e1416172553643.jpg',
-'http://en.es-static.us/upl/2014/11/andromeda-galaxy-Navaneeth-Unnikrishnan-11-9-2014-Kerala-India--e1416172553643.jpg',
-'http://en.es-static.us/upl/2014/11/andromeda-galaxy-Navaneeth-Unnikrishnan-11-9-2014-Kerala-India--e1416172553643.jpg'
+  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
+  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
+  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
+  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
+  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
+  'http://cdn.slashgear.com/wp-content/uploads/2014/04/Galaxy-820x420.jpg',
 ];
 
 class App extends Component {
@@ -36,12 +36,14 @@ class App extends Component {
     const today = new Date();
     this.todayString = `${months[today.getMonth()]} ${today.getDate()}`;
     this.state = {
-      data: null
+      data: null,
+      text: '',
+
     };
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000')
+    fetch('http://whatsoutsidetonightapi.azurewebsites.net/')
     .then((response) => response.json())
     .then((json) => {
       this.setState({data: json});
@@ -49,6 +51,14 @@ class App extends Component {
     .catch((error) => {
       console.log('There was an error', error);
     });
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      e.target.value = '';
+      e.target.blur();
+      this.setState({text: ''});
+    }
   }
 
   render() {
@@ -70,7 +80,9 @@ class App extends Component {
         {
           this.state.data.map( (d, i) => (
             <div key={i} className={`content-container ${Object.keys(d)[0]}`}>
-              <img src={imgSrcs[i]} className='image' />
+              <div className={'img-container'}>
+                <img src={imgSrcs[i]}/>
+              </div>
               <div className='right'>
                 <div className='row'>
                   <div className='number-container'>
@@ -87,6 +99,17 @@ class App extends Component {
             </div>
           ))
         }
+        <div className='input-container'>
+          <h2 className='input-header'>
+            Sign Up For Daily Text Reports
+          </h2>
+          <input
+            type='text'
+            className='input'
+            onChange={ e => this.setState({value: event.target.value}) }
+            onKeyPress={ e => this.handleKeyPress(e) }
+          />
+        </div>
       </div>
 
     );
