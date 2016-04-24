@@ -10,8 +10,6 @@ var getAsteroids = require('./actions/getAsteroids');
 var getWeather = require('./actions/getWeather');
 var getMoonPhase = require('./actions/getMoonPhase');
 var getReport = require('./actions/getReport');
-// var getMoonPhase = require('./actions/getIss');
-// var getPlanets = require('./actions/getIss');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -47,8 +45,8 @@ function getWelcomeResponse(response) {
   var lng = 40.709160;
   var userLocale = 'newyork,ny'
   Promise.all([
-    getMoonPhase(userLocale),
     getWeather(lat, lng),
+    getMoonPhase(userLocale),
     getIss(lat, lng),
     getAsteroids(lat, lng),
     getReport(lat, lng)
@@ -84,7 +82,9 @@ app.get('/', function(req, res) {
   Promise.all([
     getWeather(lat, lng),
     getMoonPhase(userLocale),
-    getIss(lat, lng)
+    getIss(lat, lng),
+    getAsteroids(lat, lng),
+    getReport(lat, lng)
   ])
   .then(function(values) {
     res.json(values);

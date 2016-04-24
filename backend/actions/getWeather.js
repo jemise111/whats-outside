@@ -19,6 +19,7 @@ function getWeather(userLng, userLat) {
         var cloudsPercentage = response.clouds.all;
         var min_temp_kelvin = response.main.temp_min;
         var min_temp = (min_temp_kelvin - 273.15)* 1.8000 + 32.00;
+        min_temp = Math.round(min_temp);
 
         // convert from unix to human time
         var sunset = new Date(response.sys.sunset *1000);
