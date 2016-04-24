@@ -2,14 +2,19 @@ var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var https = require('https');
+var nodemailer = require('nodemailer');
+var bodyParser = require('body-parser')
 
 var app = express();
+app.use( bodyParser.json() ); 
 
 var getIss = require('./actions/getIss');
 var getAsteroids = require('./actions/getAsteroids');
 var getWeather = require('./actions/getWeather');
 var getMoonPhase = require('./actions/getMoonPhase');
 var getReport = require('./actions/getReport');
+
+var transporter = nodemailer.createTransport('smtps://whatsoutside%40yahoo.com:spaceapps2016@smtp.yahoo.com');
 
 function getStarGazer() {
   var lat = -74.010074;
@@ -24,6 +29,12 @@ function getStarGazer() {
     getAsteroids(),
   ])
 }
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 /* one route to rule them all (dev)*/
 app.get('/', function(req, res) {
@@ -74,7 +85,34 @@ app.get('/twilio', function(req, res) {
 
 });
 
-app.listen(process.env.PORT || 8080, function() {
+app.post('/enternumber', function(req, res) {
+  res.header("Content-Type",'application/json');
+  res.header('Access-Control-Allow-Origin', '*');
+
+  var phone = req.body.phone;
+
+  var accountSid = 'ACb7d3fdeeb8a9d31d5f22e20399859769'; 
+  var authToken = '2fac396d9ccf479906b9b5af35bcb84e'; 
+   
+  //require the Twilio module and create a REST client 
+  var client = require('twilio')(accountSid, authToken); 
+   
+  client.messages.create({
+    to: "5163300941", 
+    from: "+13478616881", 
+    body: phone + ' wants daily reports'
+  }, function(err, message) {
+      if (err) {
+        console.log(err);
+        res.send({msg: 'problem'});
+      } else {
+        res.send({msg: 'success'});
+      }
+  });
+
+});
+
+app.listen(process.env.PORT || 8082, function() {
   console.log('server started');
 });
 

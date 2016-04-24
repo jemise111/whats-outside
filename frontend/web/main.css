@@ -61,17 +61,21 @@ html {
 }
 
 .header {
-	font-size: 48px;
+	font-size: 64px;
+	font-family: 'Open Sans', sans-serif;
 	text-align: center;
 	margin-top: 40px;
 }
 .sub-header {
-	font-size: 40px;
+	font-size: 32px;
+	font-family: 'Open Sans', sans-serif;
 	text-align: center;
+	margin-top: 5px;
 	margin-bottom: 40px;
 }
 
 .content-container {
+	background: white;
 	margin: 0px auto;
 	width: 80%;
 	margin-bottom: 20px;
@@ -87,6 +91,8 @@ html {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 24px;
 }
 
 .number-container {
@@ -102,6 +108,9 @@ html {
 
 .body-container {
 	margin-top: 20px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	line-height: 24px;
 }
 
 .img-container {
@@ -122,14 +131,32 @@ img {
 .input-container {
 	text-align: center;
 	padding: 30px;
+	border-top: 1px solid grey;
+	margin-top: 50px;
 }
 
 .input-header {
 	font-size: 36px;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .input {
+	margin-top: 20px;
+	margin-bottom: 10px;
 	height: 40px;
-	width: 200px;
+	width: 300px;
 	font-size: 24px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.success {
+	font-family: 'Open Sans', sans-serif;
+	color: green;
+	font-size: 16px;
+}
+
+.error {
+	font-size: 16px;
+	font-family: 'Open Sans', sans-serif;
+	color: red;
 }

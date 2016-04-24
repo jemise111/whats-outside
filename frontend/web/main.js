@@ -22,11 +22,11 @@ const months = [
 
 const imgSrcs = [
   'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
-  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
-  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
-  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
-  'http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg',
-  'http://cdn.slashgear.com/wp-content/uploads/2014/04/Galaxy-820x420.jpg',
+  'http://space-facts.com/wp-content/uploads/moon.png',
+  'http://spaceaim.com/wp-content/uploads/2015/07/Saturn.png',
+  'http://o.aolcdn.com/dims-shared/dims3/GLOB/crop/8000x4583+0+726/resize/960x550!/format/jpg/quality/85/http://hss-prod.hss.aol.com/hss/storage/adam/f466b710a198866365971b042e159946/157506243.jpeg',
+  'http://static1.squarespace.com/static/56eddde762cd9413e151ac92/t/570cb8aa5bd33022b93a2441/1460466816134/asteroidmining.jpg',
+  'http://www.jpost.com/HttpHandlers/ShowImage.ashx?ID=277701',
 ];
 
 class App extends Component {
@@ -54,10 +54,24 @@ class App extends Component {
   }
 
   handleKeyPress(e) {
+    var event = e;
     if (e.key === 'Enter') {
-      e.target.value = '';
-      e.target.blur();
-      this.setState({success: true, text: ''});
+      fetch('http://localhost:8082/enternumber', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone: e.target.value
+        })
+      })
+      .then((json) => {
+        this.setState({success: true, text: ''});
+      })
+      .catch((error) => {
+        this.setState({error: true})
+      });
     }
   }
 
@@ -101,7 +115,7 @@ class App extends Component {
         }
         <div className='input-container'>
           <h2 className='input-header'>
-            Enter your number for daily text reports
+            Enter your number for daily text reports!
           </h2>
           <input
             type='tel'
@@ -111,11 +125,11 @@ class App extends Component {
           />
           {
             this.state.success &&
-            <p className='success'>Success!</p>
+            <p className='success'>Success! Expect your first report tomorrow.</p>
           }
           {
             this.state.error &&
-            <p className='error'>Oops something went wrong  </p>
+            <p className='error'>Oops something went wrong.</p>
           }
         </div>
       </div>
