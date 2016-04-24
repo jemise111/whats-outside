@@ -47,3 +47,57 @@ table {
 	border-spacing: 0;
 }
 
+.no-data-container {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+}
+
+.header {
+	font-size: 48px;
+	text-align: center;
+	margin: 40px;
+}
+
+.content-container {
+	border: 1px solid black;
+	margin: 0px auto;
+	width: 80%;
+	padding: 20px;
+	margin-bottom: 20px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: row;
+
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.number-container {
+	display: flex;
+	border: 1px solid black;
+	border-radius: 100%;
+	width: 30px;
+	height: 30px;
+	justify-content: center;
+	align-items: center;
+	margin-right: 20px;
+}
+
+.body-container {
+	margin-top: 20px;
+}
+
+.image {
+	width: 200px;
+	height: 200px;
+	margin-right: 20px;
+}

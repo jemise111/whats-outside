@@ -13,14 +13,30 @@ import React, {
   View
 } from 'react-native';
 
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
 const colors = ['rgb(0,210,172)', 'rgb(0,179,234)', 'rgb(254,149,0)', 'rgb(255,212,0)', 'rgb(209,232,152)', 'rgb(62,154,87)'];
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
-    console.log('here');
     StatusBar.setHidden(true);
+    const today = new Date();
+    this.todayString = `${months[today.getMonth()]} ${today.getDate()}`;
     this.state = {
       data: null
     };
@@ -59,7 +75,7 @@ export default class App extends Component {
         >
           <View style={styles.header}>
             <Text style={styles.headerText}>Star Gazer</Text>
-            <Text style={styles.dateText}>April 24</Text>
+            <Text style={styles.dateText}>{this.todayString}</Text>
           </View>
         </Image>
         <View style={styles.diagonal} />

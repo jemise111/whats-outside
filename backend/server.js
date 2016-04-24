@@ -14,7 +14,7 @@ var getReport = require('./actions/getReport');
 /* one route to rule them all (dev)*/
 app.get('/', function(req, res) {
   res.header("Content-Type",'application/json');
-
+  res.header('Access-Control-Allow-Origin', '*');
   // ASSUME WE GET LAT LNG INFORMATION FROM FRONTEND
 
   var lat = -74.010074;
