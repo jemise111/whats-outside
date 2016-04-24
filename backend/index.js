@@ -9,6 +9,7 @@ var getIss = require('./actions/getIss');
 var getAsteroids = require('./actions/getAsteroids');
 var getWeather = require('./actions/getWeather');
 var getMoonPhase = require('./actions/getMoonPhase');
+var getReport = require('./actions/getReport');
 // var getMoonPhase = require('./actions/getIss');
 // var getPlanets = require('./actions/getIss');
 
@@ -48,8 +49,9 @@ function getWelcomeResponse(response) {
   Promise.all([
     getMoonPhase(userLocale),
     getWeather(lat, lng),
-    getIss(lat, lng)
-    // getAsteroids(lat, lng),
+    getIss(lat, lng),
+    getAsteroids(lat, lng),
+    getReport(lat, lng)
   ])
   .then(function(values) {
     response.tell(values.join('\n'));
