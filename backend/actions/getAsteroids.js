@@ -2,7 +2,7 @@ var https = require('https');
 
 var THRESHOLD = 3000000;
 
-function getAsteroids(userLat, userLng) {
+function getAsteroids() {
   return new Promise(function(resolve, reject) {
     var today = new Date();
     var sevenDaysLater = new Date();
@@ -26,8 +26,13 @@ function getAsteroids(userLat, userLng) {
 
         // COMPARE TO THE THRESHOLD
         var cleanName = closestAsteroid.name.replace('(', '').replace(')', '');
-        resolve("Asteroid " + cleanName + " is the closest asteroid to Earth today. It is " + Math.round(missDistance) + " miles from Earth.");
-
+        var result = "Asteroid " + cleanName + " is the closest asteroid to Earth today. It is " + Math.round(missDistance) + " miles away. ";
+        if (missDistance <= THRESHOLD) {
+          result += "So it might be tough to see.";
+        } else {
+          result += "So it might be visible!";
+        }
+        resolve(result);
       });
     });
   })

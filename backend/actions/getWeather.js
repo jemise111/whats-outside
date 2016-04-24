@@ -1,6 +1,7 @@
 var http = require('http');
 
 function getWeather(userLng, userLat) {
+  
   var appID = 'b150ee20258033d5838a4f945a306666';
   var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + userLat + "&lon=" + userLng + "&appid=" + appID;
 
@@ -22,7 +23,7 @@ function getWeather(userLng, userLat) {
         min_temp = Math.round(min_temp);
 
         // convert from unix to human time
-        var sunset = new Date(response.sys.sunset *1000);
+        var sunset = new Date(response.sys.sunset * 1000);
         var hours = sunset.getHours();
         var minutes = sunset.getMinutes();
         // change from army time
@@ -36,7 +37,7 @@ function getWeather(userLng, userLat) {
         // err: eval to 4 hours after?
         sunset = hours + ':' + minutes;
 
-        resolve('The weather for tonight in ' + cityName + ' is ' + weather + ' with a low of ' + min_temp + ' degrees and ' + cloudsPercentage + ' percent cloud coverege. The sun will set at 7:45 p.m.');
+        resolve(min_temp + ' degrees with ' + cloudsPercentage + '% cloud coverege. The sun will set at 7:45 p.m.');
       });
     }); // end get
   }) // end promise

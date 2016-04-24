@@ -13,30 +13,13 @@ import React, {
   View
 } from 'react-native';
 
-const data = [
-  {
-    name: 'Space Station',
-    text: 'Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff'
-  },
-  {
-    name: 'Weather Forecast',
-    text: 'Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff'
-  },
-  {
-    name: 'Asteroid Prediction',
-    text: 'Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff'
-  },
-  {
-    name: 'Special Report',
-    text: 'Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff Lorem Ipsum Space Stuff'
-  },
-]
-
 const colors = ['rgb(0,210,172)', 'rgb(0,179,234)', 'rgb(254,149,0)', 'rgb(255,212,0)', 'rgb(209,232,152)', 'rgb(62,154,87)'];
 
-class Mobile extends Component {
+export default class App extends Component {
+
   constructor(props) {
     super(props);
+    console.log('here');
     StatusBar.setHidden(true);
     this.state = {
       data: null
@@ -44,9 +27,10 @@ class Mobile extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000')
+    fetch('http://64cda8e5.ngrok.io/')
     .then((response) => response.json())
     .then((json) => {
+      console.log('success');
       this.setState({data: json});
     })
     .catch((error) => {
@@ -178,7 +162,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Gill Sans',
   }
-
 });
-
-AppRegistry.registerComponent('mobile', () => Mobile);

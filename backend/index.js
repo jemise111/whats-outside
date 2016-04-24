@@ -1,10 +1,3 @@
-var express = require('express');
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var https = require('https');
-
-var app = express();
-
 var getIss = require('./actions/getIss');
 var getAsteroids = require('./actions/getAsteroids');
 var getWeather = require('./actions/getWeather');
@@ -40,24 +33,27 @@ WhatsOutsideSkill.prototype.eventHandlers.onSessionEnded = function (sessionEnde
       + ", sessionId: " + session.sessionId);
   // any session cleanup logic would go here
 };
+
 function getWelcomeResponse(response) {
+
   var lat = -74.010074;
   var lng = 40.709160;
   var userLocale = 'newyork,ny'
+  
   Promise.all([
     getWeather(lat, lng),
     getMoonPhase(userLocale),
     getIss(lat, lng),
-    getAsteroids(lat, lng),
+    getAsteroids(),
     getReport(lat, lng)
   ])
   .then(function(values) {
-    response.tell(values.join('\n'));
+    var cleanValues = cleanupValues(values);
+    res.json(cleanValues);
   })
   .catch(function(error){
     response.tell('Something went wrong with the promise');
   })
-  // response.tell('Hello Liza');
 }
 
 // Create the handler that responds to the Alexa Request.
@@ -69,32 +65,31 @@ exports.handler = function (event, context) {
 
 /* End Alexa */
 
-/* one route to rule them all (dev)*/
-app.get('/', function(req, res) {
-  res.header("Content-Type",'application/json');
+/**
+ * HELPERS
+ */
 
-  // ASSUME WE GET LAT LNG INFORMATION FROM FRONTEND
+function cleanupValues(values) {
+  var result = [];
+  var weather = values[0];
+  result.push({Weather: weather});
 
-  var lat = -74.010074;
-  var lng = 40.709160;
-  var userLocale = 'newyork,ny'
+  var moon = values[1];
+  result.push({Moon: moon});
 
-  Promise.all([
-    getWeather(lat, lng),
-    getMoonPhase(userLocale),
-    getIss(lat, lng),
-    getAsteroids(lat, lng),
-    getReport(lat, lng)
-  ])
-  .then(function(values) {
-    res.json(values);
-  })
-  .catch(function(error){
-    console.log("SOMETHING WENT WRONG", error);
-  })
+  var report = values[2];
+  result.push({Planet: report.planets});
 
-});
+  var iss = values[3];
+  result.push({ISS: iss});
 
-app.listen(3000, function() {
-  console.log('server started on port 3000');
-});
+  var asteroids = values[4];
+  result.push({Asteroid: asteroids});
+  
+  result.push({Bonus: report.comets + report.meteors});
+
+  return result.map(function(obj) {
+    var key = Object.keys(obj)[0];
+    return key + ' report: ' + obj[key];
+  }).join('\n');
+}

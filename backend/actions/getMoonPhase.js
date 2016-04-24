@@ -6,8 +6,6 @@ function getMoonPhase(userLocale){
   var client_secret = '&client_secret=CQJheqVVJJ5TWc6OU86Wk9t1EzF76svJcfJ7p0wa';
   var url = 'http://api.aerisapi.com/sunmoon/moonphases/' + userLocale + '?limit=1' + client_id + client_secret;
 
-  console.log('oh hai');
-
   return new Promise(function(resolve, reject){
     http.get(url, function(res, err){
       var body = '';

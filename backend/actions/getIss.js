@@ -16,13 +16,14 @@ function getIss(userLat, userLng) {
 
         var distance = Math.round(getDistanceFromLatLonInKm(issLat, issLng, userLat, userLng));
 
-        var prefix = "The International Space Station is " + distance + " kilometers from your current location.";
-        var suffix = "Unfortunately, you're probably not going to have much luck tonight";
+        var result = "The International Space Station is " + distance + " kilometers from your location. ";
         if (distance <= THRESHOLD) {
-          suffix = "You're in luck! Go outside and check out it out";
+          result += "You won't be able to see it.";
+        } else {
+          result += "You're in luck, keep an eye out.";
         }
 
-        resolve(prefix);
+        resolve(result);
       });
     });
   })
