@@ -57,7 +57,7 @@ class App extends Component {
     if (e.key === 'Enter') {
       e.target.value = '';
       e.target.blur();
-      this.setState({text: ''});
+      this.setState({success: true, text: ''});
     }
   }
 
@@ -101,14 +101,22 @@ class App extends Component {
         }
         <div className='input-container'>
           <h2 className='input-header'>
-            Sign Up For Daily Text Reports
+            Enter your number for daily text reports
           </h2>
           <input
-            type='text'
+            type='tel'
             className='input'
             onChange={ e => this.setState({value: event.target.value}) }
             onKeyPress={ e => this.handleKeyPress(e) }
           />
+          {
+            this.state.success &&
+            <p className='success'>Success!</p>
+          }
+          {
+            this.state.error &&
+            <p className='error'>Oops something went wrong  </p>
+          }
         </div>
       </div>
 

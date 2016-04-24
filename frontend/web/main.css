@@ -118,3 +118,18 @@ img {
 .right {
 	padding: 20px;
 }
+
+.input-container {
+	text-align: center;
+	padding: 30px;
+}
+
+.input-header {
+	font-size: 36px;
+}
+
+.input {
+	height: 40px;
+	width: 200px;
+	font-size: 24px;
+}
