@@ -63,8 +63,10 @@ class App extends Component {
       <div>
         <h1 className='header'>
           Star Gazer
-          {this.todayString}
         </h1>
+        <h2 className='sub-header'>
+          {this.todayString}
+        </h2>
         {
           this.state.data.map( (d, i) => (
             <div key={i} className={`content-container ${Object.keys(d)[0]}`}>
