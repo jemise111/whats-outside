@@ -49,7 +49,7 @@ function getWelcomeResponse(response) {
   ])
   .then(function(values) {
     var cleanValues = cleanupValues(values);
-    res.json(cleanValues);
+    response.tell(cleanValues);
   })
   .catch(function(error){
     response.tell('Something went wrong with the promise');
