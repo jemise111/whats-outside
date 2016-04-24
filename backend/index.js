@@ -4,9 +4,6 @@ var getWeather = require('./actions/getWeather');
 var getMoonPhase = require('./actions/getMoonPhase');
 var getReport = require('./actions/getReport');
 
-app.use(cors());
-app.use(bodyParser.urlencoded({extended: true}));
-
 /* Alexa */
 var APP_ID = 'amzn1.echo-sdk-ams.app.d7e49c7e-64db-4d63-b758-f2ccc587eed9';
 var AlexaSkill = require('./AlexaSkill');
@@ -34,22 +31,27 @@ WhatsOutsideSkill.prototype.eventHandlers.onSessionEnded = function (sessionEnde
   // any session cleanup logic would go here
 };
 
-function getWelcomeResponse(response) {
-
+function getStarGazer() {
   var lat = -74.010074;
   var lng = 40.709160;
   var userLocale = 'newyork,ny'
-  
-  Promise.all([
+
+  return Promise.all([
     getWeather(lat, lng),
     getMoonPhase(userLocale),
+    getReport(lat, lng),
     getIss(lat, lng),
-    getAsteroids(),
-    getReport(lat, lng)
+    getAsteroids()
   ])
+}
+
+function getWelcomeResponse(response) {
+
+  getStarGazer()
   .then(function(values) {
     var cleanValues = cleanupValues(values);
-    res.json(cleanValues);
+    // response.tell('Hello Liza');
+    response.tell(cleanValues);
   })
   .catch(function(error){
     response.tell('Something went wrong with the promise');
@@ -86,10 +88,10 @@ function cleanupValues(values) {
   var asteroids = values[4];
   result.push({Asteroid: asteroids});
   
-  result.push({Bonus: report.comets + report.meteors});
+  result.push({Bonus: report.comets + '\n\n' + report.meteor});
 
   return result.map(function(obj) {
     var key = Object.keys(obj)[0];
     return key + ' report: ' + obj[key];
-  }).join('\n');
+  }).join('\n\n');
 }

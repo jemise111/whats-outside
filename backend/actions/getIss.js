@@ -1,6 +1,6 @@
 var http = require('http');
 
-var THRESHOLD = 100;
+var THRESHOLD = 1000;
 
 function getIss(userLat, userLng) {
   return new Promise(function(resolve, reject) {

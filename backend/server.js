@@ -14,8 +14,6 @@ var getWeather = require('./actions/getWeather');
 var getMoonPhase = require('./actions/getMoonPhase');
 var getReport = require('./actions/getReport');
 
-var transporter = nodemailer.createTransport('smtps://whatsoutside%40yahoo.com:spaceapps2016@smtp.yahoo.com');
-
 function getStarGazer() {
   var lat = -74.010074;
   var lng = 40.709160;
@@ -26,7 +24,7 @@ function getStarGazer() {
     getMoonPhase(userLocale),
     getReport(lat, lng),
     getIss(lat, lng),
-    getAsteroids(),
+    getAsteroids()
   ])
 }
 
