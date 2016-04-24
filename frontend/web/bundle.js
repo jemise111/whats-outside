@@ -68,6 +68,8 @@
 
 	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+	var imgSrcs = ['http://space-facts.com/wp-content/uploads/andromeda-galaxy.jpg', 'http://space-facts.com/wp-content/uploads/moon.png', 'http://spaceaim.com/wp-content/uploads/2015/07/Saturn.png', 'http://o.aolcdn.com/dims-shared/dims3/GLOB/crop/8000x4583+0+726/resize/960x550!/format/jpg/quality/85/http://hss-prod.hss.aol.com/hss/storage/adam/f466b710a198866365971b042e159946/157506243.jpeg', 'http://static1.squarespace.com/static/56eddde762cd9413e151ac92/t/570cb8aa5bd33022b93a2441/1460466816134/asteroidmining.jpg', 'http://www.jpost.com/HttpHandlers/ShowImage.ashx?ID=277701'];
+
 	var App = function (_Component) {
 	  _inherits(App, _Component);
 
@@ -79,7 +81,9 @@
 	    var today = new Date();
 	    _this.todayString = months[today.getMonth()] + ' ' + today.getDate();
 	    _this.state = {
-	      data: null
+	      data: null,
+	      text: ''
+
 	    };
 	    return _this;
 	  }
@@ -89,18 +93,42 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      fetch('http://64cda8e5.ngrok.io/').then(function (response) {
+	      fetch('http://whatsoutsidetonightapi.azurewebsites.net').then(function (response) {
 	        return response.json();
 	      }).then(function (json) {
-	        console.log('success');
 	        _this2.setState({ data: json });
 	      }).catch(function (error) {
 	        console.log('There was an error', error);
 	      });
 	    }
 	  }, {
+	    key: 'handleKeyPress',
+	    value: function handleKeyPress(e) {
+	      var _this3 = this;
+
+	      var event = e;
+	      if (e.key === 'Enter') {
+	        fetch('http://whatsoutsidetonightapi.azurewebsites.net/enternumber', {
+	          method: 'POST',
+	          headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	          },
+	          body: JSON.stringify({
+	            phone: e.target.value
+	          })
+	        }).then(function (json) {
+	          _this3.setState({ success: true, text: '' });
+	        }).catch(function (error) {
+	          _this3.setState({ error: true });
+	        });
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this4 = this;
+
 	      if (!this.state.data) {
 	        return _react2.default.createElement(
 	          'div',
@@ -108,14 +136,97 @@
 	          _react2.default.createElement('img', { clalssName: 'loader', src: 'ripple.gif' })
 	        );
 	      }
-	      console.log(this.state.data);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'h1',
 	          { className: 'header' },
+	          'Star Gazer'
+	        ),
+	        _react2.default.createElement(
+	          'h2',
+	          { className: 'sub-header' },
 	          this.todayString
+	        ),
+	        this.state.data.map(function (d, i) {
+	          return _react2.default.createElement(
+	            'div',
+	            { key: i, className: 'content-container ' + Object.keys(d)[0] },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'img-container' },
+	              _react2.default.createElement('img', { src: imgSrcs[i] })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'right' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'number-container' },
+	                  _react2.default.createElement(
+	                    'p',
+	                    { className: 'number' },
+	                    i + 1
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'p',
+	                  { className: 'content-header' },
+	                  Object.keys(d)[0],
+	                  ' Report'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'body-container' },
+	                d[Object.keys(d)[0]].split('\n\n').map(function (t, i) {
+	                  return _react2.default.createElement(
+	                    'div',
+	                    { key: i },
+	                    _react2.default.createElement(
+	                      'p',
+	                      { className: 'body' },
+	                      t
+	                    ),
+	                    _react2.default.createElement('br', null)
+	                  );
+	                })
+	              )
+	            )
+	          );
+	        }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'input-container' },
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'input-header' },
+	            'Enter your number for daily text reports!'
+	          ),
+	          _react2.default.createElement('input', {
+	            type: 'tel',
+	            className: 'input',
+	            onChange: function onChange(e) {
+	              return _this4.setState({ value: event.target.value });
+	            },
+	            onKeyPress: function onKeyPress(e) {
+	              return _this4.handleKeyPress(e);
+	            }
+	          }),
+	          this.state.success && _react2.default.createElement(
+	            'p',
+	            { className: 'success' },
+	            'Success! Expect your first report tomorrow.'
+	          ),
+	          this.state.error && _react2.default.createElement(
+	            'p',
+	            { className: 'error' },
+	            'Oops something went wrong.'
+	          )
 	        )
 	      );
 	    }

@@ -43,7 +43,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://whatsoutsidetonightapi.azurewebsites.net/')
+    fetch('http://whatsoutsidetonightapi.azurewebsites.net')
     .then((response) => response.json())
     .then((json) => {
       this.setState({data: json});
@@ -56,7 +56,7 @@ class App extends Component {
   handleKeyPress(e) {
     var event = e;
     if (e.key === 'Enter') {
-      fetch('http://localhost:8082/enternumber', {
+      fetch('http://whatsoutsidetonightapi.azurewebsites.net/enternumber', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
