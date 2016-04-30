@@ -15,6 +15,11 @@ function getAsteroids() {
     var end = sevenDaysLater.getFullYear() + '-' + sevenDaysLaterMonth + '-' + sevenDaysLater.getDate();
 
     https.get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+start+'&end_date='+end+'&api_key=Tv6gAKvEQVPyIf0KwDIHRQXRuJ17XQYIEETD2e35', function (res, err) {
+      if (err) {
+        // temp excellent error handling skillz
+        resolve('');
+      }
+      
       var body = '';
       res.on('data', function(chunk) {
         body += chunk;

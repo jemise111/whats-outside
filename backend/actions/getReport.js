@@ -14,8 +14,8 @@ function getReport() {
       }
     )(function(err, data) {
       if (err) {
-        console.error('Error trying to scrape');
-        throw err;
+      	// temp excellent error handling skillz
+      	resolve('');
       } else {
         result = {
           planets: 'In the evening: ' + getPlanets(data.eveningPlanets) + '\n\nIn the early morning: ' + getPlanets(data.morningPlanets),

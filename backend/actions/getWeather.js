@@ -7,6 +7,11 @@ function getWeather(userLng, userLat) {
 
   return new Promise(function(resolve, reject) {
     http.get(url, function(res, err){
+      if (err) {
+      	// temp excellent error handling skillz
+      	resolve('');
+      }
+      
       var body = '';
       res.on('data', function(chunk){
         body += chunk;
@@ -37,7 +42,7 @@ function getWeather(userLng, userLat) {
         // err: eval to 4 hours after?
         sunset = hours + ':' + minutes;
 
-        resolve(min_temp + ' degrees with ' + cloudsPercentage + '% cloud coverege. The sun will set at 7:45 p.m.');
+        resolve('Low of ' + min_temp + ' degrees with ' + cloudsPercentage + '% cloud coverege. The sun will set at 7:45 p.m.');
       });
     }); // end get
   }) // end promise

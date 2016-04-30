@@ -17,8 +17,8 @@ function getIss(userLat, userLng) {
         var distance = Math.round(getDistanceFromLatLonInKm(issLat, issLng, userLat, userLng));
 
         var result = "The International Space Station is " + distance + " kilometers from your location. ";
-        if (distance <= THRESHOLD) {
-          result += "You won't be able to see it.";
+        if (distance >= THRESHOLD) {
+          result += "You probably won't be able to see it.";
         } else {
           result += "You're in luck, keep an eye out.";
         }

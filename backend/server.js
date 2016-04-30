@@ -14,14 +14,14 @@ var getWeather = require('./actions/getWeather');
 var getMoonPhase = require('./actions/getMoonPhase');
 var getReport = require('./actions/getReport');
 
-function getStarGazer() {
-  var lat = -74.010074;
-  var lng = 40.709160;
-  var userLocale = 'newyork,ny'
+function getStarGazer(lat, lng) {
+  // Default to NYC
+  lat = lat || -74.010074;
+  lng = lng || 40.709160;
 
   return Promise.all([
     getWeather(lat, lng),
-    getMoonPhase(userLocale),
+    getMoonPhase(),
     getReport(lat, lng),
     getIss(lat, lng),
     getAsteroids()
@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   // ASSUME WE GET LAT LNG INFORMATION FROM FRONTEND
 
-  getStarGazer()
+  getStarGazer(req.query.lat, req.query.lng)
   .then(function(values) {
     var cleanValues = cleanupValues(values);
     res.json(cleanValues);
@@ -119,32 +119,20 @@ app.listen(process.env.PORT || 8082, function() {
  */
 
 function cleanupValues(values) {
-  var result = [];
-  var weather = values[0];
-  result.push({Weather: weather});
-
-  var moon = values[1];
-  result.push({Moon: moon});
-
-  var report = values[2];
-  result.push({Planet: report.planets});
-
-  var iss = values[3];
-  result.push({ISS: iss});
-
-  var asteroids = values[4];
-  result.push({Asteroid: asteroids});
-  
-  result.push({Bonus: report.comets + '\n\n' + report.meteor});
-
-  return result;
+  return {
+  	weather: values[0],
+  	moon: values[1],
+  	planet: values[2].planets,
+  	iss: values[3],
+  	asteroid: values[4],
+  	cfa: values[2].comets + '\n\n' + values[2].meteor
+  };
 }
 
 function cleanupValuesTwilio(values) {
-  var result = cleanupValues(values);
-
-  return result.map(function(obj) {
-    var key = Object.keys(obj)[0];
-    return key + ' report: ' + obj[key];
+  var data = cleanupValues(values);
+  return Object.keys(data).map(function(k) {
+  	var cleanKey = k.replace(k[0], k[0].toUpperCase());
+  	return cleanKey + ' report: ' + data[k];
   }).join('\n\n');
 }
