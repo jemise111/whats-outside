@@ -37,7 +37,7 @@ function handleWhatsOutsideIntent(intent, session, response) {
 
 	var lat, lng;
 
-	http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&components=country:USA', function (res, err) {
+	http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&components=country:USA', function (res, err) {
 		if (err) {
 			response.ask(errorResponse);
 		}
@@ -52,7 +52,9 @@ function handleWhatsOutsideIntent(intent, session, response) {
 				lat = locations[0].geometry.location.lat;
 				lng = locations[0].geometry.location.lng;
 
-				http.get('http://whatsoutsidetonightapi.azurewebsites.net?lat=' + lat + '&lng=' + lng, function (res2, err2) {
+				// lat lng reversed. Why? No idea
+
+				http.get('http://whatsoutsidetonightapi.azurewebsites.net?lng=' + lat + '&lat=' + lng, function (res2, err2) {
 					if (err2) {
 						response.ask('There was a problem getting the star gazer report. Please try again.');
 					}
@@ -61,7 +63,7 @@ function handleWhatsOutsideIntent(intent, session, response) {
 						starGazerBody += chunk;
 					});
 					res2.on('end', function() {
-						var starGazerResponse = JSON.parse(body);
+						var starGazerResponse = JSON.parse(starGazerBody);
 						var cleanResponse = cleanupResponse(starGazerResponse);
 						response.tell(cleanResponse);
 					})
@@ -107,7 +109,8 @@ exports.handler = function (event, context) {
  * HELPERS
  */
 
-function cleanupResponse(values) {
+function cleanupResponse(data) {
+	console.log(data);
   return Object.keys(data).map(function(k) {
   	var cleanKey = k.replace(k[0], k[0].toUpperCase()) + ' report: ';
   	if (k === 'cfa') {
