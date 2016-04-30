@@ -27,33 +27,6 @@ WhatsOutsideSkill.prototype.eventHandlers.onSessionEnded = function (sessionEnde
 	// any session cleanup logic would go here
 };
 
-function getStarGazer() {
-	
-	var lat = -74.010074;
-	var lng = 40.709160;
-	var userLocale = 'newyork,ny'
-
-	return Promise.all([
-		getWeather(lat, lng),
-		getMoonPhase(userLocale),
-		getReport(lat, lng),
-		getIss(lat, lng),
-		getAsteroids()
-	])
-}
-
-function getWelcomeResponse(response) {
-
-	getStarGazer()
-	.then(function(values) {
-		var cleanValues = cleanupValues(values);
-		response.tell(cleanValues);
-	})
-	.catch(function(error){
-		response.tell('Something went wrong with the promise');
-	})
-}
-
 function handleWhatsOutsideIntent(intent, session, response) {
 	var errorResponse = 'There was a problem getting your location, try again with a different city';
 	var citySlot = intent.slots.city;
