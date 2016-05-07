@@ -9,11 +9,11 @@ function getAsteroids() {
     sevenDaysLater.setDate(today.getDate()+7);
 
     var todayMonth = (today.getMonth()+1) < 10 ? '0' + (today.getMonth()+1) : today.getMonth()+1;
+    var todayDate = today.getDate() < 10 ? '0' + today.getDate() : today.getDate();
     var sevenDaysLaterMonth = sevenDaysLater.getMonth()+1 < 10 ? '0' + (sevenDaysLater.getMonth()+1) : sevenDaysLater.getMonth()+1;
     
-    var start = today.getFullYear() + '-' + todayMonth + '-' + today.getDate();
+    var start = today.getFullYear() + '-' + todayMonth + '-' + todayDate;
     var end = sevenDaysLater.getFullYear() + '-' + sevenDaysLaterMonth + '-' + sevenDaysLater.getDate();
-
     https.get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+start+'&end_date='+end+'&api_key=Tv6gAKvEQVPyIf0KwDIHRQXRuJ17XQYIEETD2e35', function (res, err) {
       if (err) {
         // temp excellent error handling skillz
@@ -26,6 +26,10 @@ function getAsteroids() {
       });
       res.on('end', function() {
         var asteroids = JSON.parse(body).near_earth_objects[start];
+        if (!asteroids || !asteroids.length) {
+        	resolve('');
+        }
+        
         var closestAsteroid = getClosestAsteroid(asteroids);
         var missDistance = closestAsteroid.close_approach_data[0].miss_distance.miles;
 

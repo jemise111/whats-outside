@@ -22,7 +22,6 @@ function getMoonPhase(){
 			}); // end on data
 			res.on('end', function() {
 				var response = JSON.parse(body);
-				console.log(response);
 				var moonPhase = response.phasedata[0].phase.toLowerCase();
 				switch (moonPhase) {
 					case 'first quarter':
