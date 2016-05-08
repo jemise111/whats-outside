@@ -94,6 +94,18 @@ WhatsOutsideSkill.prototype.intentHandlers = {
 			};
 			// For the repromptText, play the speechOutput again
 			response.ask(speechOutput, repromptOutput);
+		},
+
+		"AMAZON.StopIntent": function (intent, session, response) {
+			response.tell('Goodbye');
+		},
+
+		"AMAZON.CancelIntent": function (intent, session, response) {
+			response.tell('Goodbye');
+		},
+
+		"InvalidRequestIntent": function(intent, session, response) {
+			response.tell("Hm I couldn't understand that request. Please try again.");	
 		}
 };
 

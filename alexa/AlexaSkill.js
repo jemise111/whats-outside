@@ -57,14 +57,18 @@ AlexaSkill.prototype.eventHandlers = {
      * Called when the user specifies an intent.
      */
     onIntent: function (intentRequest, session, response) {
-        var intent = intentRequest.intent,
-            intentName = intentRequest.intent.name,
-            intentHandler = this.intentHandlers[intentName];
-        if (intentHandler) {
-            console.log('dispatch intent = ' + intentName);
-            intentHandler.call(this, intent, session, response);
+        var intent = intentRequest.intent
+        if (intent) {
+	        var intentName = intentRequest.intent.name,
+	        	intentHandler = this.intentHandlers[intentName];
+	        if (intentHandler) {
+	            console.log('dispatch intent = ' + intentName);
+	            intentHandler.call(this, intent, session, response);
+	        } else {
+	        	this.intentHandlers.InvalidRequestIntent.call(this, intent, session, response);
+	        }
         } else {
-            throw 'Unsupported intent = ' + intentName;
+        	this.intentHandlers.InvalidRequestIntent.call(this, intent, session, response);
         }
     },
 
