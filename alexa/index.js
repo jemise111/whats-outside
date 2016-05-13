@@ -19,7 +19,19 @@ WhatsOutsideSkill.prototype.eventHandlers.onSessionStarted = function (sessionSt
 };
 WhatsOutsideSkill.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
 	console.log("WhatsOutsideSkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
-	getWelcomeResponse(response);
+	
+	var speechText = "Hello, what can I help you with today?";
+
+	var speechOutput = {
+			speech: speechText,
+			type: AlexaSkill.speechOutputType.PLAIN_TEXT
+	};
+	var repromptOutput = {
+			speech: speechText,
+			type: AlexaSkill.speechOutputType.PLAIN_TEXT
+	};
+	// For the repromptText, play the speechOutput again
+	response.ask(speechOutput, repromptOutput);
 };
 WhatsOutsideSkill.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
 	console.log("onSessionEnded requestId: " + sessionEndedRequest.requestId
