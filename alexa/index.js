@@ -20,7 +20,7 @@ WhatsOutsideSkill.prototype.eventHandlers.onSessionStarted = function (sessionSt
 WhatsOutsideSkill.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
 	console.log("WhatsOutsideSkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
 	
-	var speechText = "Hello, what can I help you with today?";
+	var speechText = "I can tell you tonight's star gazer report for your city, just say, what's outside tonight near, followed by a major US city.";
 
 	var speechOutput = {
 			speech: speechText,
