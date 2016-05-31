@@ -66,7 +66,7 @@ function handleWhatsOutsideIntent(intent, session, response) {
 
 				// lat lng reversed. Why? No idea
 
-				http.get('http://whatsoutsidetonightapi.azurewebsites.net?lng=' + lat + '&lat=' + lng, function (res2, err2) {
+				http.get('http://whatsoutsideapi.herokuapp.com/?lng=' + lat + '&lat=' + lng, function (res2, err2) {
 					if (err2) {
 						response.ask('There was a problem getting the star gazer report. Please try again.');
 					}
