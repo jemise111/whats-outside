@@ -94,7 +94,9 @@ WhatsOutsideSkill.prototype.intentHandlers = {
 		},
 
 		"AMAZON.HelpIntent": function (intent, session, response) {
-			var speechText = "I can tell you tonight's star gazer report for your city, just say, what's outside tonight near, followed by a major US city.";
+			var speechText = "I can tell you tonight's star gazer report for your city. ";
+			speechText += "The star gazer report includes weather and visibility conditions, planets that may be visible, and much more. "
+			speechText += "To get started, just say, what's outside tonight near, followed by a major US city.";
 
 			var speechOutput = {
 					speech: speechText,
