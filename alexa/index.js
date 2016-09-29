@@ -19,6 +19,10 @@ WhatsOutsideSkill.prototype.eventHandlers.onSessionStarted = function (sessionSt
 };
 WhatsOutsideSkill.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
 	console.log("WhatsOutsideSkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
+
+	var helpText = "I can tell you tonight's star gazer report for your city. ";
+		helpText += "The star gazer report includes weather and visibility conditions, planets that may be visible, and much more. "
+		helpText += "To get started, just say, what's outside tonight near, followed by a major US city.";
 	
 	var speechText = "I can tell you tonight's star gazer report for your city, just say, what's outside tonight near, followed by a major US city.";
 
@@ -27,7 +31,7 @@ WhatsOutsideSkill.prototype.eventHandlers.onLaunch = function (launchRequest, se
 			type: AlexaSkill.speechOutputType.PLAIN_TEXT
 	};
 	var repromptOutput = {
-			speech: speechText,
+			speech: help,
 			type: AlexaSkill.speechOutputType.PLAIN_TEXT
 	};
 	// For the repromptText, play the speechOutput again
@@ -94,6 +98,7 @@ WhatsOutsideSkill.prototype.intentHandlers = {
 		},
 
 		"AMAZON.HelpIntent": function (intent, session, response) {
+
 			var speechText = "I can tell you tonight's star gazer report for your city. ";
 			speechText += "The star gazer report includes weather and visibility conditions, planets that may be visible, and much more. "
 			speechText += "To get started, just say, what's outside tonight near, followed by a major US city.";

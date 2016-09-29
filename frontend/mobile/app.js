@@ -43,7 +43,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://whatsoutsidetonightapi.azurewebsites.net/')
+    fetch('http://whatsoutsideapi.herokuapp.com/')
     .then((response) => response.json())
     .then((json) => {
       this.setState({data: json});
@@ -79,17 +79,17 @@ export default class App extends Component {
         </Image>
         <View style={styles.diagonal} />
         {
-          this.state.data.map( (d, i) => (
+          Object.keys(this.state.data).map( (k, i) => (
             <View key={i} style={styles.contentContainer}>
               <View style={styles.row}>
                 <View style={[styles.numberContainer, {borderColor: colors[i]}]}>
                   <Text style={[styles.numberText, {color: colors[i]}]}>{i+1}</Text>
                 </View>
-                <Text style={[styles.contentHeaderText, {color: colors[i]}]}>{Object.keys(d)[0]} Report</Text>
+                <Text style={[styles.contentHeaderText, {color: colors[i]}]}>{k.replace(k[0], k[0].toUpperCase())} Report</Text>
               </View>
               <View style={styles.bodyContainer}>
                 <Text style={styles.bodyText}>
-                  {d[Object.keys(d)[0]]}
+                  {this.state.data[k]}
                 </Text>
               </View>
             </View>
